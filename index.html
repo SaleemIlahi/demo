@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Chart</title>
+  </head>
+
+  <body>
+    <div class="chrt">
+      <div class="chrt_dt">
+        <div class="client_name">RAPIDO</div>
+        <div class="title_bar">
+          <h4>PERFORMANCE TREND</h4>
+          <div class="dt_box">
+            <div class="dt_sel">
+              <label>From</label>
+              <input type="date" />
+              <label>to</label>
+              <input type="date" />
+            </div>
+            <div class="submit_btn">
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+        <div class="chrt_scale">
+          <div class="chrt_score_details">
+            <div class="imp_score">
+              <h4>IMPRESSION</h4>
+              <span>36.2M</span>
+            </div>
+            <div class="ctr_score">
+              <h4>CTR</h4>
+              <span>63</span>
+            </div>
+            <div class="click_score">
+              <h4>CLICKS</h4>
+              <span>63K</span>
+            </div>
+          </div>
+          <div class="chrt_scale_clr">
+            <div class="imp_clr">
+              <h4>IMPRESSION</h4>
+            </div>
+            <div class="ctr_clr">
+              <h4>CTR</h4>
+            </div>
+            <div class="dist_clr">
+              <h4>DISTRIBUION</h4>
+            </div>
+          </div>
+        </div>
+        <div class="date_graph">
+          <canvas id="dateChart"></canvas>
+        </div>
+      </div>
+      <div class="chrt_r_2">
+        <div class="chrt_wk">
+          <h4>DAY OF WEEK</h4>
+          <div class="week_graph">
+            <canvas id="weekChart"></canvas>
+          </div>
+        </div>
+        <div class="chrt_device">
+          <h4>DEVICE PERFORMANCE</h4>
+          <div class="device_flex">
+            <div class="chrt_desk">
+              <div class="desk_graph">
+                <canvas id="devdkChart"></canvas>
+              </div>
+              <h2>Desktop</h2>
+            </div>
+            <div class="chrt_mob">
+              <div class="mobile_graph">
+                <canvas id="devmbChart"></canvas>
+              </div>
+              <h2>Mobile</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chrt_r_3">
+        <div class="chrt_dim">
+          <h4>DIMENSION</h4>
+          <div class="dim_graph">
+            <canvas id="dimChart"></canvas>
+          </div>
+        </div>
+        <div class="chrt_creative">
+          <h4>DYNAMIC CREATIVES</h4>
+          <div class="cre_graph">
+            <canvas id="creChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.2/dist/chart.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js"
+      integrity="sha512-Tfw6etYMUhL4RTki37niav99C6OHwMDB2iBT5S5piyHO+ltK2YX8Hjy9TXxhE1Gm/TmAV0uaykSpnHKFIAif/A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
