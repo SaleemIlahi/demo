@@ -1,7 +1,6 @@
 const datectx = document.getElementById("dateChart").getContext("2d");
 const weekctx = document.getElementById("weekChart").getContext("2d");
-const devicdeskectx = document.getElementById("devdkChart").getContext("2d");
-const devicmobctx = document.getElementById("devmbChart").getContext("2d");
+const devictx = document.getElementById("deviceChart").getContext("2d");
 const dimctx = document.getElementById("dimChart").getContext("2d");
 const crectx = document.getElementById("creChart").getContext("2d");
 
@@ -16,6 +15,8 @@ const label_dt = [
   "JUN 7",
 ];
 const label_wk = ["SUN", "MON", "TUE", "WED", "FRI", "THRU", "SAT"];
+
+const label_dv = ["DEVICE", "MOBILE"];
 const label_dim = [
   "300x250",
   "300x600",
@@ -38,24 +39,21 @@ const imp_dt_vl = [1800000, 2300000, 1900000, 100000, 2300000, 110000, 200000];
 const imp_wk_vl = [180000, 300000, 330000, 190000, 100000, 23000, 110000];
 const imp_dim_vl = [280000, 270000, 220000, 180000, 290000, 150000];
 const imp_cre_vl = [28000000, 27000000, 22000000, 18000000, 20000000, 15000000];
-const imp_desk_vl = [500];
-const imp_mob_vl = [400];
+const imp_dv_vl = [50000, 34000];
 
 // CTR values of chart
 const ctr_dt_vl = [0.5, 0.6, 0.3, 0.9, 0.5, 0.3, 0.4];
 const ctr_wk_vl = [0.2, 0.6, 0.4, 0.3, 0.2, 0.7, 0.3];
 const ctr_dim_vl = [0.5, 0.3, 0.6, 0.7, 0.2, 0.8];
 const ctr_cre_vl = [0.5, 0.3, 0.9, 0.2, 0.6, 0.7];
-const ctr_desk_vl = [0.6];
-const ctr_mob_vl = [0.8];
+const ctr_dv_vl = [0.6, 0.8];
 
 // Distribution values of chart
 const dist_value = dist(imp_dt_vl);
 const dist_wk_vl = dist(imp_wk_vl);
 const dist_dim_vl = dist(imp_dim_vl);
 const dist_cre_vl = dist(imp_cre_vl);
-const dist_desk_vl = dist_device(imp_desk_vl);
-const dist_mob_vl = dist_device(imp_mob_vl);
+const dist_dv_vl = dist(imp_dv_vl);
 
 // Alignment of x-axis label in bar
 const labelDataAlign = {
@@ -95,33 +93,6 @@ function dist(imp_vl) {
   return dist_arr;
 }
 
-// Sum of device imps Desktop and mobile
-function device_imp(imp_dk, imp_mob) {
-  const imps = imp_dk.concat(imp_mob);
-  let sum = 0;
-  imps.forEach((element) => {
-    sum += element;
-  });
-
-  return sum;
-}
-
-// Distributin calculation of device chart
-function dist_device(dev_imp) {
-  const imp_sum = device_imp(imp_desk_vl, imp_mob_vl);
-  const dist_arr = [];
-
-  const percent = (dev_imp / imp_sum) * 100;
-
-  if (percent < 1) {
-    dist_arr.push(percent.toFixed(2));
-  } else {
-    dist_arr.push(Math.round(percent));
-  }
-
-  return dist_arr;
-}
-
 // Date Chart
 const dateChart = new Chart(datectx, {
   type: "line",
@@ -129,21 +100,24 @@ const dateChart = new Chart(datectx, {
     labels: label_dt,
     datasets: [
       {
-        label: "imp",
+        label: "Impression",
         data: imp_dt_vl,
         borderColor: "#29AFBA",
+        pointColor: "#29AFBA",
         yAxisID: "yimp",
       },
       {
         label: "CTR",
         data: ctr_dt_vl,
         borderColor: "#FBCA27",
+        pointColor: "#FBCA27",
         yAxisID: "yclk",
       },
       {
         label: "Distribution",
         data: dist_value,
         borderColor: "#F47958",
+        pointColor: "#F47958",
         yAxisID: "ydist",
       },
     ],
@@ -152,6 +126,10 @@ const dateChart = new Chart(datectx, {
     responsive: true,
     maintainAspectRatio: false,
     tension: 0.4,
+    interaction: {
+      intersect: false,
+      mode: "index",
+    },
     scales: {
       x: {
         ticks: {
@@ -192,6 +170,14 @@ const dateChart = new Chart(datectx, {
     },
     plugins: {
       tooltip: {
+        backgroundColor: "rgb(255,255,255)",
+        titleColor: "rgb(0,0,0)",
+        bodyColor: "rgb(0,0,0)",
+        bodyFont: {
+          weight: "bold",
+        },
+        borderWidth: 0.4,
+        borderColor: "rgb(0,0,0)",
         callbacks: {
           label: (context) => {
             if (context.dataset.label === "Distribution") {
@@ -248,7 +234,7 @@ const weekChart = new Chart(weekctx, {
         hoverOffset: 4,
       },
       {
-        label: "imp",
+        label: "Impression",
         data: imp_wk_vl,
         backgroundColor: [
           "#29AFBA",
@@ -270,6 +256,9 @@ const weekChart = new Chart(weekctx, {
     responsive: true,
     maintainAspectRatio: false,
     indexAxis: "y",
+    interaction: {
+      mode: "index",
+    },
     scales: {
       x: {
         display: false,
@@ -282,6 +271,14 @@ const weekChart = new Chart(weekctx, {
     },
     plugins: {
       tooltip: {
+        backgroundColor: "rgb(255,255,255)",
+        titleColor: "rgb(0,0,0)",
+        bodyColor: "rgb(0,0,0)",
+        bodyFont: {
+          weight: "bold",
+        },
+        borderWidth: 0.4,
+        borderColor: "rgb(0,0,0)",
         callbacks: {
           label: (context) => {
             if (context.dataset.label === "Distribution") {
@@ -317,123 +314,74 @@ const weekChart = new Chart(weekctx, {
 });
 
 // Device Chart
-const dedkChart = new Chart(devicdeskectx, {
-  type: "doughnut",
+const deviceChart = new Chart(devictx, {
+  type: "bar",
   data: {
-    labels: ["Device"],
+    labels: label_dv,
     datasets: [
       {
-        label: "imp",
-        data: imp_desk_vl,
-        backgroundColor: ["#29AFBA"],
-        cutout: "50",
-        borderRadius: "20",
-        // circumference: 260
-      },
-      {
         label: "CTR",
-        data: ctr_desk_vl,
-        backgroundColor: ["#FBCA27"],
-        cutout: "50",
-        borderRadius: "20",
-        // circumference: 200
+        data: ctr_dv_vl,
+        backgroundColor: ["#FBCA27", "#FBCA27"],
+        minBarLength: "90",
+        barPercentage: 0.7,
+        borderSkipped: false,
+        hoverOffset: 4,
       },
       {
         label: "Distribution",
-        data: dist_desk_vl,
-        backgroundColor: ["#F47958"],
-        cutout: "50",
-        borderRadius: "13",
-        // circumference: 200
+        data: dist_dv_vl,
+        backgroundColor: ["#F47958", "#F47958"],
+        minBarLength: "140",
+        barPercentage: 0.7,
+        borderSkipped: false,
+        hoverOffset: 4,
+      },
+      {
+        label: "Impression",
+        data: imp_dv_vl,
+        backgroundColor: ["#29AFBA", "#29AFBA"],
+        minBarLength: "250",
+        barPercentage: 0.7,
+        borderSkipped: false,
+        hoverOffset: 4,
       },
     ],
   },
-  plugins: [ChartDataLabels],
+  plugins: [ChartDataLabels, labelDataAlign],
   options: {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (context) => {
-            if (context.dataset.label === "Distribution") {
-              return context.dataset.label + ": " + context.parsed + "%";
-            } else {
-              return context.dataset.label + ": " + context.parsed;
-            }
-          },
-        },
-      },
-      datalabels: {
-        formatter: (value, context) => {
-          if (context.dataset.label === "Distribution") {
-            return value + "%";
-          }
-        },
-        color: "#000",
-        anchor: "center",
-        labels: {
-          title: {
-            font: {
-              weight: "bold",
-            },
-          },
-          value: {
-            color: "#000",
-          },
-        },
-      },
-      legend: {
+    indexAxis: "y",
+    interaction: {
+      mode: "index",
+    },
+    scales: {
+      x: {
         display: false,
+        stacked: true,
+      },
+      y: {
+        display: false,
+        stacked: true,
       },
     },
-  },
-});
-
-// Mobile Chart
-const dembChart = new Chart(devicmobctx, {
-  type: "doughnut",
-  data: {
-    labels: ["Mobile"],
-    datasets: [
-      {
-        label: "imp",
-        data: imp_mob_vl,
-        backgroundColor: ["#29AFBA"],
-        cutout: "50",
-        borderRadius: "20",
-        // circumference: 300,
-      },
-      {
-        label: "CTR",
-        data: ctr_mob_vl,
-        backgroundColor: ["#FBCA27"],
-        cutout: "50",
-        borderRadius: "20",
-        // circumference: 260
-      },
-      {
-        label: "Distribution",
-        data: dist_mob_vl,
-        backgroundColor: ["#F47958"],
-        cutout: "50",
-        borderRadius: "20",
-        // circumference: 200
-      },
-    ],
-  },
-  plugins: [ChartDataLabels],
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
     plugins: {
       tooltip: {
+        backgroundColor: "rgb(255,255,255)",
+        titleColor: "rgb(0,0,0)",
+        bodyColor: "rgb(0,0,0)",
+        bodyFont: {
+          weight: "bold",
+        },
+        borderWidth: 0.4,
+        borderColor: "rgb(0,0,0)",
         callbacks: {
           label: (context) => {
             if (context.dataset.label === "Distribution") {
-              return context.dataset.label + ": " + context.parsed + "%";
+              return context.dataset.label + ": " + context.parsed.x + "%";
             } else {
-              return context.dataset.label + ": " + context.parsed;
+              return context.dataset.label + ": " + context.parsed.x;
             }
           },
         },
@@ -445,15 +393,13 @@ const dembChart = new Chart(devicmobctx, {
           }
         },
         color: "#000",
-        anchor: "center",
+        anchor: "end",
+        align: "start",
         labels: {
           title: {
             font: {
               weight: "bold",
             },
-          },
-          value: {
-            color: "#000",
           },
         },
       },
@@ -503,7 +449,7 @@ const dimChart = new Chart(dimctx, {
         hoverOffset: 4,
       },
       {
-        label: "imp",
+        label: "Impression",
         data: imp_dim_vl,
         backgroundColor: [
           "#29AFBA",
@@ -525,6 +471,9 @@ const dimChart = new Chart(dimctx, {
     responsive: true,
     maintainAspectRatio: false,
     indexAxis: "y",
+    interaction: {
+      mode: "index",
+    },
     scales: {
       x: {
         display: false,
@@ -537,6 +486,14 @@ const dimChart = new Chart(dimctx, {
     },
     plugins: {
       tooltip: {
+        backgroundColor: "rgb(255,255,255)",
+        titleColor: "rgb(0,0,0)",
+        bodyColor: "rgb(0,0,0)",
+        bodyFont: {
+          weight: "bold",
+        },
+        borderWidth: 0.4,
+        borderColor: "rgb(0,0,0)",
         callbacks: {
           label: (context) => {
             if (context.dataset.label === "Distribution") {
@@ -610,7 +567,7 @@ const creChart = new Chart(crectx, {
         hoverOffset: 4,
       },
       {
-        label: "imp",
+        label: "Impression",
         data: imp_cre_vl,
         backgroundColor: [
           "#29AFBA",
@@ -632,6 +589,9 @@ const creChart = new Chart(crectx, {
     responsive: true,
     maintainAspectRatio: false,
     indexAxis: "y",
+    interaction: {
+      mode: "index",
+    },
     scales: {
       x: {
         display: false,
@@ -647,6 +607,14 @@ const creChart = new Chart(crectx, {
     },
     plugins: {
       tooltip: {
+        backgroundColor: "rgb(255,255,255)",
+        titleColor: "rgb(0,0,0)",
+        bodyColor: "rgb(0,0,0)",
+        bodyFont: {
+          weight: "bold",
+        },
+        borderWidth: 0.4,
+        borderColor: "rgb(0,0,0)",
         callbacks: {
           label: (context) => {
             if (context.dataset.label === "Distribution") {

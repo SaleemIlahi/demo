@@ -18,15 +18,15 @@
         <div class="title_bar">
           <h4>PERFORMANCE TREND</h4>
           <div class="dt_box">
-            <div class="dt_sel">
+            <form class="dt_sel">
               <label>From</label>
               <input type="date" />
               <label>to</label>
               <input type="date" />
-            </div>
-            <div class="submit_btn">
-              <i class="fa-solid fa-arrow-right"></i>
-            </div>
+              <button class="submit_btn" name="submit">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </form>
           </div>
         </div>
         <div class="chrt_scale">
@@ -52,7 +52,7 @@
               <h4>CTR</h4>
             </div>
             <div class="dist_clr">
-              <h4>DISTRIBUION</h4>
+              <h4>DISTRIBUTION</h4>
             </div>
           </div>
         </div>
@@ -69,19 +69,8 @@
         </div>
         <div class="chrt_device">
           <h4>DEVICE PERFORMANCE</h4>
-          <div class="device_flex">
-            <div class="chrt_desk">
-              <div class="desk_graph">
-                <canvas id="devdkChart"></canvas>
-              </div>
-              <h2>Desktop</h2>
-            </div>
-            <div class="chrt_mob">
-              <div class="mobile_graph">
-                <canvas id="devmbChart"></canvas>
-              </div>
-              <h2>Mobile</h2>
-            </div>
+          <div class="device_graph">
+            <canvas id="deviceChart"></canvas>
           </div>
         </div>
       </div>
